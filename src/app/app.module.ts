@@ -5,11 +5,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharePhotoComponent } from './share-photo/share-photo.component';
 import { HttpClientModule } from '@angular/common/http';
+import { CameraComponent } from './camera/camera.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SharePhotoComponent
+    SharePhotoComponent,
+    CameraComponent
   ],
   imports: [
     BrowserModule,

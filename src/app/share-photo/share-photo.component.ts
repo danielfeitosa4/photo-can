@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { PhotoCanService } from '../services/photo-can.service';
 
 @Component({
@@ -7,25 +7,44 @@ import { PhotoCanService } from '../services/photo-can.service';
   styleUrls: ['./share-photo.component.css']
 })
 export class SharePhotoComponent implements OnInit {
+  @ViewChild("fileUpload", {static: false}) fileUpload!: ElementRef;
+  files: any[]= [];
 
-  constructor(private buckets:PhotoCanService) { }
+  constructor(private photoCanService:PhotoCanService) { }
 
-  enviarDados() {
-    const dados = { /* seus dados aqui */ };
-    this.buckets.fazerPost(dados).subscribe(
-      response => {
-        console.log('Resposta da API:', response);
-        // Faça algo com a resposta da API
-      },
-      error => {
-        console.error('Erro na requisição:', error);
-        // Trate o erro adequadamente
-      }
-    );
+  sendFile(file: any) {
+    const formData = new FormData();
+    formData.append('file', file.data);
+    file.inProgress = true;
+    this.photoCanService.sendFormData(formData).subscribe((event: any) => {
+        if (typeof (event) === 'object') {
+          console.log(event.body);
+        }
+    });
   }
 
+  private sendFiles() {
+    this.fileUpload.nativeElement.value = '';
+    this.files.forEach(file => {
+      this.sendFile(file);
+    });
+  }
+
+  onClick() {
+    const fileUpload = this.fileUpload.nativeElement;
+    fileUpload.onchange = () => {
+    for (let index = 0; index < fileUpload.files.length; index++)
+    {
+     const file = fileUpload.files[index];
+     this.files.push({ data: file, inProgress: false, progress: 0});
+    }
+      this.sendFiles();
+    };
+    fileUpload.click();
+}
+
   ngOnInit(): void {
-    this.buckets.getProducts().subscribe(
+    this.photoCanService.getProducts().subscribe(
       (data) => {
         console.log(data)
       },

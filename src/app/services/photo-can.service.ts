@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
-import { Observable } from 'rxjs';
-
+import { HttpClient,} from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
@@ -9,15 +7,17 @@ export class PhotoCanService {
 
   SERVER_URL = 'http://localhost:5201/api/Buckets/get-all'
 
-  private apiUrl = 'http://localhost:5201/api/Files/upload?bucketName=photo-can'
+  apiUrl = 'https://localhost:7025/api/Buckets/create?'
 
-  constructor(private http: HttpClient) { }
+  apiUrlImage: string = 'https://localhost:7025/api/Files/upload?bucketName=photo-can'
+
+  constructor(private httpClient: HttpClient) { }
 
   public getProducts() {
-      return this.http.get(`${this.SERVER_URL}`)
+    return this.httpClient.get(`${this.SERVER_URL}`)
   }
 
-  fazerPost(data: any): Observable<any> {
-    return this.http.post(this.apiUrl, data);
-  }
+  public sendFormData(formData: any) {
+    return this.httpClient.post<any>(this.apiUrlImage, formData);
+}
 }
