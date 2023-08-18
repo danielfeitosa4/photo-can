@@ -1,0 +1,29 @@
+.text-bold {
+  font-weight: 900;
+  
+}.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 600px;
+  height: 300px;
+  border: 2px dashed #cccccc;
+  border-radius: 10px;
+  margin: 80px auto;
+  padding: 10px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form
+.input-select {
+  margin: 10px auto;
+}
+
+.form .btn {
+  width: 70%;
+  margin: 0 auto;
+}
